@@ -1,0 +1,8 @@
+[package]
+name = "mpu9150"
+version = "0.1.0"
+authors = ["jamey <jamey@minilop.net>"]
+
+[dependencies]
+i2cdev = { git = "https://github.com/rust-embedded/rust-i2cdev.git" }
+byteorder = "0.5"
