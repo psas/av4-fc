@@ -20,8 +20,8 @@ fn setup<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> Result<(),
 		return Err(io::Error::new(io::ErrorKind::NotFound, "MPU-9150 WhoAmI returned wrong value").into());
 	}
 
-	// Wake device up
-	bus.write(&[0x6b, 0x20])
+	// Wake device up, and sample at 5Hz
+	bus.write(&[0x6b, 0x20, 0x40])
 }
 
 #[derive(Debug)]
