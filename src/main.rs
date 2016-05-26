@@ -34,8 +34,15 @@ pub fn setup<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> Result
 		return Err(io::Error::new(io::ErrorKind::NotFound, "MPU-9150 WhoAmI returned wrong value").into());
 	}
 
-	// Wake device up, and sample at 5Hz
-	bus.write(&[0x6b, 0x20, 0x40])
+	// Wake device up, using internal oscillator.
+	try!(bus.write(&[0x6b, 0x00]));
+
+	// Set configuration:
+	// - Sample rate divider: 1kHz / 200
+	// - Config: no FSYNC, low-pass filter at 5Hz
+	// - Gyro config: full scale range at +/- 250 dps
+	// - Accel config: full scale range at +/- 2g
+	bus.write(&[0x19, 199, 0x06, 0x00, 0x00])
 }
 
 /// Structure to hold measurements in real units.
