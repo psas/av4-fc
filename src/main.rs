@@ -41,11 +41,11 @@ pub fn setup<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> Result
 /// Structure to hold measurements in real units.
 #[derive(Debug)]
 pub struct MPUSample {
-	/// Accelerometer X/Y/Z in m/s/s
+	/// Acceleration X/Y/Z in g's
 	pub accel: [f32; 3],
 	/// Temperature in degrees Celsius
 	pub temp: f32,
-	/// Gyroscope X/Y/Z in degrees/second
+	/// Rotational velocity X/Y/Z in degrees/second
 	pub gyro: [f32; 3],
 }
 
