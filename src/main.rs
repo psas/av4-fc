@@ -7,6 +7,8 @@ use i2cdev::linux::*;
 use std::env;
 use std::error::Error;
 use std::io;
+use std::time::Duration;
+use std::thread::sleep;
 
 fn read_reg<E: Error>(bus: &mut I2CDevice<Error=E>, reg: u8, buf: &mut [u8]) -> Result<(), E> {
 	try!(bus.write(&[reg]));
@@ -60,7 +62,8 @@ fn main() {
 
 	setup(&mut bus).unwrap();
 
-	if let Ok(sample) = read_sample(&mut bus) {
+	while let Ok(sample) = read_sample(&mut bus) {
 		println!("{:?}", sample);
+		sleep(Duration::from_millis(200));
 	}
 }
