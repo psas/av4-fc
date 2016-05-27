@@ -56,24 +56,6 @@ pub struct MPUSample {
 	pub gyro: [f32; 3],
 }
 
-/// Extract an `MPUSample` from a raw buffer of register contents.
-fn parse_sample(buf: [u8; (3 + 1 + 3) * 2]) -> Result<MPUSample, io::Error> {
-	let mut rdr = io::Cursor::new(buf);
-	Ok(MPUSample {
-		accel: [
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
-		],
-		temp: (try!(rdr.read_i16::<BigEndian>()) as f32) / 340.0 + 35.0,
-		gyro: [
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
-			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
-		],
-	})
-}
-
 /// Read an `MPUSample` from the given I2C device, which must have been
 /// initialized first using `setup`.
 pub fn read_sample<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> Result<MPUSample, E> {
@@ -88,14 +70,26 @@ pub fn read_sample<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> 
 	let mut buf = [0u8; (3 + 1 + 3) * 2];
 	try!(read_reg(bus, 0x3b, &mut buf));
 
-	// If parse_sample returns an error, it will be of type
-	// io::Error. However, we're supposed to return errors of the
-	// type associated with the I2CDevice implementation we're
-	// using. So above we constrained type E to have an
-	// implementation of the From trait, which automatically gives
-	// us an implementation of Into that will convert io::Error to E
-	// as needed.
-	parse_sample(buf).map_err(Into::into)
+	// If read_i16 returns an error, it will be of type io::Error.
+	// However, we're supposed to return errors of the type
+	// associated with the I2CDevice implementation we're using. So
+	// above we constrained type E to have an implementation of the
+	// From trait, which the try! macro will use to convert
+	// io::Error to E as needed.
+	let mut rdr = io::Cursor::new(buf);
+	Ok(MPUSample {
+		accel: [
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 16384.0,
+		],
+		temp: (try!(rdr.read_i16::<BigEndian>()) as f32) / 340.0 + 35.0,
+		gyro: [
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
+			(try!(rdr.read_i16::<BigEndian>()) as f32) / 131.0,
+		],
+	})
 }
 
 fn main() {
