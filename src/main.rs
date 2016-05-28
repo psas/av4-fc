@@ -102,8 +102,8 @@ fn main() {
 
 	setup(&mut bus).unwrap();
 
-	while let Ok(sample) = read_sample(&mut bus) {
+	let delay = Duration::from_millis(200);
+	while let Ok(sample) = { sleep(delay); read_sample(&mut bus) } {
 		println!("{:?}", sample);
-		sleep(Duration::from_millis(200));
 	}
 }
