@@ -93,8 +93,12 @@ pub fn read_sample<E: Error + From<io::Error>>(bus: &mut I2CDevice<Error=E>) -> 
 }
 
 fn main() {
-	let dev = env::args().nth(1).unwrap();
-	let mut bus = LinuxI2CDevice::new(dev, 0x68).unwrap();
+	let dev = env::args().nth(1)
+		.expect(&format!("Usage: {} /dev/i2c-?",
+			env::args().nth(0).unwrap_or("program".into())
+		));
+	let mut bus = LinuxI2CDevice::new(&dev, 0x68)
+		.expect(&format!("opening {} failed", &dev));
 
 	setup(&mut bus).unwrap();
 
