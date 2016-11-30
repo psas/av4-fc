@@ -51,3 +51,11 @@ dependencies = [
  "libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
+[metadata]
+"checksum bitflags 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8dead7461c1127cf637931a1e50934eb6eee8bff2f74433ac7909e9afcee04a3"
+"checksum bitflags 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "4f67931368edf3a9a51d29886d245f1c3db2f1ef0dcc9e35ff70341b78c10d23"
+"checksum byteorder 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "96c8b41881888cc08af32d47ac4edd52bc7fa27fef774be47a92443756451304"
+"checksum byteorder 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "e4ca3a1755927e5b00c3fe43250053b957b5c074d9f17782b88ef7aa0fb4dfe2"
+"checksum i2cdev 0.2.0 (git+https://github.com/rust-embedded/rust-i2cdev.git)" = "<none>"
+"checksum libc 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)" = "52f45f4d4d75de96cf7f8b0e37b6a8e2f96619749b80bd79aa9f5a3100d63208"
+"checksum nix 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f05c2fc965fc1cd6b73fa57fa7b89f288178737f2f3ce9e63e4a6a141189000e"
