@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["jamey <jamey@minilop.net>"]
 
 [dependencies]
-i2cdev = { git = "https://github.com/rust-embedded/rust-i2cdev.git" }
+i2cdev = "0.3.1"
 byteorder = "0.5"
 
 [features]
